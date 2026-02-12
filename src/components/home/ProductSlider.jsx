@@ -77,7 +77,8 @@ const ProductSlider = () => {
                     slidesPerView={4}
                     breakpoints={{
                         320: { slidesPerView: 1 },
-                        768: { slidesPerView: 2 },
+                        600: { slidesPerView: 2 },
+                        768: { slidesPerView: 3 },
                         1200: { slidesPerView: 4 },
                     }}
                 >
@@ -95,7 +96,7 @@ const ProductSlider = () => {
                                     src={node.images.edges[0]?.node.url}
                                     sx={{
                                         width: "100%",
-                                        height: 350,
+                                        height: 200,
                                         objectFit: "contain",
                                     }}
                                 />
