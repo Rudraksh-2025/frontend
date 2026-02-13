@@ -11,6 +11,7 @@ import {
 
 const ProductGrid = () => {
     const [products, setProducts] = useState([]);
+    const [hovered, setHovered] = useState(null);
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ const ProductGrid = () => {
               id
               title
               handle
-              images(first:1){
+              images(first:2){
                 edges{
                   node{ url }
                 }
@@ -58,8 +59,9 @@ const ProductGrid = () => {
         return Math.round(discount);
     };
 
+
     return (
-        <Box sx={{ px: 8, py: 6 }}>
+        <Box sx={{ px: { xs: 3, md: 8 }, py: 6 }}>
             <Typography
                 variant="h4"
                 sx={{
@@ -79,9 +81,12 @@ const ProductGrid = () => {
                         ? parseFloat(variant.compareAtPrice.amount)
                         : null;
                     const discount = calculateDiscount(price, compare);
+                    const images = node.images.edges;
+                    const primary = images[0]?.node.url;
+                    const secondary = images[1]?.node.url || primary;
 
                     return (
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }} key={node.id}>
+                        <Grid size={{ xs: 6, sm: 6, md: 4, lg: 3 }} key={node.id}>
                             <Box
                                 sx={{
                                     cursor: "pointer",
@@ -114,15 +119,14 @@ const ProductGrid = () => {
                                 {/* Image */}
                                 <Box
                                     component="img"
-                                    src={node.images.edges[0]?.node.url}
+                                    src={hovered === node.id ? secondary : primary}
+                                    onMouseEnter={() => setHovered(node.id)}
+                                    onMouseLeave={() => setHovered(null)}
                                     sx={{
                                         width: "100%",
-                                        height: 200,
+                                        height: 300,
                                         objectFit: "contain",
                                         transition: "0.3s",
-                                        "&:hover": {
-                                            transform: "scale(1.05)",
-                                        },
                                     }}
                                 />
 
@@ -164,7 +168,7 @@ const ProductGrid = () => {
                                 </Box>
 
                                 {/* Add to Cart Button */}
-                                <Button
+                                {/* <Button
                                     fullWidth
                                     variant="contained"
                                     sx={{ mt: 2 }}
@@ -174,7 +178,7 @@ const ProductGrid = () => {
                                     }}
                                 >
                                     Add to Cart
-                                </Button>
+                                </Button> */}
                             </Box>
                         </Grid>
                     );

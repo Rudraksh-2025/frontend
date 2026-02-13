@@ -4,13 +4,14 @@ const Hero = () => {
     return (
         <Box
             sx={{
-                height: "90vh",
+                height: "100vh",
                 width: "100%",
                 position: "relative",
                 backgroundImage:
-                    "url('https://images.unsplash.com/photo-1520975922322-9f3b0cbb1b6b')",
+                    "url('src/assets/images/trackslider1.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
+                backgroundAttachment: "fixed", // 🔥 PARALLAX
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

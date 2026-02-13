@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #f7f9fb!important;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    /* color: black; */
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
     color: black !important;

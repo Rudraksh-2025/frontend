@@ -42,7 +42,7 @@ const ProductSlider = () => {
     };
 
     return (
-        <Box sx={{ py: 8, background: "#f2f2f2" }}>
+        <Box sx={{ py: 8 }}>
             <Typography
                 variant="h4"
                 sx={{
@@ -96,7 +96,7 @@ const ProductSlider = () => {
                                     src={node.images.edges[0]?.node.url}
                                     sx={{
                                         width: "100%",
-                                        height: 200,
+                                        height: 250,
                                         objectFit: "contain",
                                     }}
                                 />
