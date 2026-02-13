@@ -1,11 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { shopifyQuery } from "../../services/shopify";
 import { CartContext } from "../../context/CartContext";
-import {
-    Box,
-    Typography,
-    Button,
-} from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -14,8 +11,13 @@ import "swiper/css/navigation";
 
 const ProductSlider = () => {
     const [products, setProducts] = useState([]);
-    const { addToCart } = useContext(CartContext);
+    const [isBeginning, setIsBeginning] = useState(true);
+    const [isEnd, setIsEnd] = useState(false);
+
     const navigate = useNavigate();
+
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
 
     useEffect(() => {
         fetchProducts();
@@ -41,8 +43,17 @@ const ProductSlider = () => {
         setProducts(data.products.edges);
     };
 
+    const updateNav = (swiper) => {
+        // delay ensures layout + images loaded
+        setTimeout(() => {
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
+        }, 50);
+    };
+
+
     return (
-        <Box sx={{ py: 8 }}>
+        <Box sx={{ py: { xs: 6, md: 8 } }}>
             <Typography
                 variant="h4"
                 sx={{
@@ -58,25 +69,69 @@ const ProductSlider = () => {
             <Box sx={{ position: "relative" }}>
 
                 {/* Custom Prev Button */}
-                <Box className="custom-prev" sx={{ ...navButtonStyle, left: 10 }}>
-                    ‹
-                </Box>
+                <IconButton
+                    ref={prevRef}
+                    sx={{
+                        display: { xs: "none", md: "flex", },
+                        position: "absolute",
+                        top: "40%",
+                        left: 20,
+                        pl: 1.2,
+                        pr: 0.5,
+                        zIndex: 10,
+                        transform: "translateY(-50%)",
+                        bgcolor: "lightgray",
+                        "&:hover": { bgcolor: "#eee" },
+                        opacity: isBeginning ? 0 : 1,
+                        pointerEvents: isBeginning ? "none" : "auto",
+
+                    }}
+                >
+                    <ArrowBackIos />
+                </IconButton>
 
                 {/* Custom Next Button */}
-                <Box className="custom-next" sx={{ ...navButtonStyle, right: 10 }}>
-                    ›
-                </Box>
+                <IconButton
+                    ref={nextRef}
+                    sx={{
+                        display: { xs: "none", md: "flex", },
+                        position: "absolute",
+                        top: "40%",
+                        right: 20,
+                        zIndex: 10,
+                        transform: "translateY(-50%)",
+                        bgcolor: "lightgray",
+                        "&:hover": { bgcolor: "#eee" },
+                        opacity: isEnd ? 0 : 1,
+                        pointerEvents: isEnd ? "none" : "auto",
+
+                    }}
+                >
+                    <ArrowForwardIos />
+                </IconButton>
 
                 <Swiper
                     modules={[Navigation]}
-                    navigation={{
-                        prevEl: ".custom-prev",
-                        nextEl: ".custom-next",
+                    onBeforeInit={(swiper) => {
+                        swiper.params.navigation.prevEl = prevRef.current;
+                        swiper.params.navigation.nextEl = nextRef.current;
                     }}
+                    navigation={{
+                        prevEl: prevRef.current,
+                        nextEl: nextRef.current,
+                    }}
+                    watchOverflow
+                    onAfterInit={(swiper) => updateNav(swiper)}
+                    onSlideChange={(swiper) => updateNav(swiper)}
+                    onResize={(swiper) => updateNav(swiper)}
+                    onObserverUpdate={(swiper) => updateNav(swiper)}
+                    touchRatio={1}
+                    simulateTouch={true}
+                    allowTouchMove={true}
                     spaceBetween={30}
                     slidesPerView={4}
                     breakpoints={{
-                        320: { slidesPerView: 1 },
+                        320: { slidesPerView: 1.8 },
                         600: { slidesPerView: 2 },
                         768: { slidesPerView: 3 },
                         1200: { slidesPerView: 4 },
@@ -96,7 +151,7 @@ const ProductSlider = () => {
                                     src={node.images.edges[0]?.node.url}
                                     sx={{
                                         width: "100%",
-                                        height: 250,
+                                        height: 300,
                                         objectFit: "contain",
                                     }}
                                 />
@@ -109,16 +164,16 @@ const ProductSlider = () => {
                                     ₹{node.variants.edges[0].node.price.amount}
                                 </Typography>
 
-                                <Button
+                                {/* <Button
                                     variant="contained"
                                     sx={{ mt: 2 }}
                                     onClick={(e) => {
-                                        e.stopPropagation(); // prevent navigation
+                                        e.stopPropagation();
                                         addToCart(node.variants.edges[0].node.id);
                                     }}
                                 >
                                     Add to Cart
-                                </Button>
+                                </Button> */}
                             </Box>
                         </SwiperSlide>
                     ))}
@@ -130,22 +185,5 @@ const ProductSlider = () => {
 };
 
 export default ProductSlider;
-
-const navButtonStyle = {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    zIndex: 10,
-    background: "black",
-    color: "white",
-    width: 40,
-    height: 40,
-    borderRadius: "50%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    fontSize: "22px",
-};
 
 
