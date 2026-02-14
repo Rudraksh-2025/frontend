@@ -29,7 +29,7 @@ const Footer = () => {
             <Container maxWidth="lg">
                 <Grid container spacing={6}>
                     {/* BRAND */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography
                             variant="h5"
                             sx={{ fontWeight: 700, letterSpacing: 2 }}
@@ -63,7 +63,7 @@ const Footer = () => {
                     </Grid>
 
                     {/* SHOP */}
-                    <Grid item xs={6} md={2}>
+                    <Grid size={{ xs: 6, md: 2 }}>
                         <Typography sx={{ mb: 2, fontWeight: 600 }}>
                             SHOP
                         </Typography>
@@ -89,7 +89,7 @@ const Footer = () => {
                     </Grid>
 
                     {/* SUPPORT */}
-                    <Grid item xs={6} md={2}>
+                    <Grid size={{ xs: 6, md: 2 }}>
                         <Typography sx={{ mb: 2, fontWeight: 600 }}>
                             SUPPORT
                         </Typography>
@@ -112,7 +112,7 @@ const Footer = () => {
                     </Grid>
 
                     {/* NEWSLETTER */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography sx={{ mb: 2, fontWeight: 600 }}>
                             JOIN OUR NEWSLETTER
                         </Typography>

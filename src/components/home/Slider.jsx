@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useKeenSlider } from "keen-slider/react";
@@ -22,6 +23,41 @@ const slides = [
 ];
 
 export default function Slider() {
+    const [isHovered, setIsHovered] = useState(false);
+    const autoplay = (slider) => {
+        let timeout;
+        let mouseOver = false;
+
+        function clearNextTimeout() {
+            clearTimeout(timeout);
+        }
+
+        function nextTimeout() {
+            clearTimeout(timeout);
+            if (mouseOver) return;
+            timeout = setTimeout(() => {
+                slider.next();
+            }, 3000); // 3 sec
+        }
+
+        slider.on("created", () => {
+            slider.container.addEventListener("mouseenter", () => {
+                mouseOver = true;
+                clearNextTimeout();
+            });
+
+            slider.container.addEventListener("mouseleave", () => {
+                mouseOver = false;
+                nextTimeout();
+            });
+
+            nextTimeout();
+        });
+
+        slider.on("dragStarted", clearNextTimeout);
+        slider.on("animationEnded", nextTimeout);
+        slider.on("updated", nextTimeout);
+    };
     const [sliderRef, instanceRef] = useKeenSlider({
         loop: true,
         drag: (ctx) => {
@@ -30,10 +66,14 @@ export default function Slider() {
 
         mode: "snap",
         slides: { perView: 1, spacing: 0 },
-    });
+    }, [autoplay]);
 
     return (
-        <Box sx={{ position: "relative", overflow: "hidden" }}>
+        <Box
+            sx={{ position: "relative", overflow: "hidden" }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
             {/* Slider */}
             <Box ref={sliderRef} className="keen-slider">
                 {slides.map((slide, i) => (
@@ -56,37 +96,40 @@ export default function Slider() {
             </Box>
 
             {/* Left Arrow */}
-            <IconButton
-                onClick={() => instanceRef.current?.prev()}
-                sx={{
-                    display: { xs: "none", md: "flex" },
-                    position: "absolute",
-                    top: "50%",
-                    left: 20,
-                    pl: 1.4,
-                    transform: "translateY(-50%)",
-                    bgcolor: "#fff",
-                    "&:hover": { bgcolor: "#eee" },
-                }}
-            >
-                <ArrowBackIos />
-            </IconButton>
+            {isHovered && (
+                <IconButton
+                    onClick={() => instanceRef.current?.prev()}
+                    sx={{
+                        display: { xs: "none", md: "flex" },
+                        position: "absolute",
+                        top: "50%",
+                        left: 20,
+                        transform: "translateY(-50%)",
+                        bgcolor: "#fff",
+                        "&:hover": { bgcolor: "#eee" },
+                    }}
+                >
+                    <ArrowBackIos />
+                </IconButton>
+            )}
 
             {/* Right Arrow */}
-            <IconButton
-                onClick={() => instanceRef.current?.next()}
-                sx={{
-                    display: { xs: "none", md: "flex" },
-                    position: "absolute",
-                    top: "50%",
-                    right: 20,
-                    transform: "translateY(-50%)",
-                    bgcolor: "#fff",
-                    "&:hover": { bgcolor: "#eee" },
-                }}
-            >
-                <ArrowForwardIos />
-            </IconButton>
+            {isHovered && (
+                <IconButton
+                    onClick={() => instanceRef.current?.next()}
+                    sx={{
+                        display: { xs: "none", md: "flex" },
+                        position: "absolute",
+                        top: "50%",
+                        right: 20,
+                        transform: "translateY(-50%)",
+                        bgcolor: "#fff",
+                        "&:hover": { bgcolor: "#eee" },
+                    }}
+                >
+                    <ArrowForwardIos />
+                </IconButton>
+            )}
         </Box>
     );
 }
