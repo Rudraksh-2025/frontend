@@ -11,10 +11,20 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Cart = () => {
     const { cart, updateQuantity, removeItem } = useContext(CartContext);
-    console.log(cart)
+    const { customer, openLogin } = useContext(AuthContext);
+    const handleCheckout = () => {
+        if (!customer) {
+            openLogin();
+            return;
+        }
+
+        window.location.href = cart.checkoutUrl;
+    };
+
 
     if (!cart || cart?.lines?.length === 0)
         return (
@@ -162,9 +172,7 @@ const Cart = () => {
                                 fontWeight: 600,
                                 borderRadius: 2,
                             }}
-                            onClick={() =>
-                                (window.location.href = cart.checkoutUrl)
-                            }
+                            onClick={handleCheckout}
                         >
                             Proceed to Checkout
                         </Button>

@@ -4,16 +4,21 @@ import { shopifyQuery } from "../services/shopify";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [customer, setCustomer] = useState(null);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [customer, setCustomer] = useState(null);
 
-    const token = localStorage.getItem("customerToken");
+  const openLogin = () => setLoginOpen(true);
+  const closeLogin = () => setLoginOpen(false);
 
-    useEffect(() => {
-        if (token) fetchCustomer(token);
-    }, []);
 
-    const fetchCustomer = async (token) => {
-        const query = `
+  const token = localStorage.getItem("customerToken");
+
+  useEffect(() => {
+    if (token) fetchCustomer(token);
+  }, []);
+
+  const fetchCustomer = async (token) => {
+    const query = `
       query getCustomer($token: String!) {
         customer(customerAccessToken: $token) {
           id
@@ -22,12 +27,12 @@ export const AuthProvider = ({ children }) => {
         }
       }
     `;
-        const data = await shopifyQuery(query, { token });
-        setCustomer(data.customer);
-    };
+    const data = await shopifyQuery(query, { token });
+    setCustomer(data.customer);
+  };
 
-    const register = async (email, password, firstName, lastName) => {
-        const query = `
+  const register = async (email, password, firstName, lastName) => {
+    const query = `
     mutation customerCreate($input: CustomerCreateInput!) {
       customerCreate(input: $input) {
         customer { id }
@@ -36,14 +41,14 @@ export const AuthProvider = ({ children }) => {
     }
   `;
 
-        return await shopifyQuery(query, {
-            input: { email, password, firstName, lastName },
-        });
-    };
+    return await shopifyQuery(query, {
+      input: { email, password, firstName, lastName },
+    });
+  };
 
 
-    const login = async (email, password) => {
-        const query = `
+  const login = async (email, password) => {
+    const query = `
       mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
         customerAccessTokenCreate(input: $input) {
           customerAccessToken {
@@ -54,29 +59,49 @@ export const AuthProvider = ({ children }) => {
       }
     `;
 
-        const data = await shopifyQuery(query, {
-            input: { email, password },
-        });
+    const data = await shopifyQuery(query, {
+      input: { email, password },
+    });
 
-        const token =
-            data.customerAccessTokenCreate.customerAccessToken?.accessToken;
+    const token =
+      data.customerAccessTokenCreate.customerAccessToken?.accessToken;
 
-        if (token) {
-            localStorage.setItem("customerToken", token);
-            fetchCustomer(token);
-        }
+    if (token) {
+      localStorage.setItem("customerToken", token);
+      fetchCustomer(token);
+    }
 
-        return data;
-    };
+    const cartId = localStorage.getItem("cartId");
 
-    const logout = () => {
-        localStorage.removeItem("customerToken");
-        setCustomer(null);
-    };
+    if (cartId) {
+      await shopifyQuery(`
+    mutation attachCustomer($cartId: ID!, $token: String!) {
+      cartBuyerIdentityUpdate(
+        cartId: $cartId,
+        buyerIdentity: { customerAccessToken: $token }
+      ) {
+        cart { id }
+      }
+    }
+  `, { cartId, token });
+    }
 
-    return (
-        <AuthContext.Provider value={{ customer, register, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+
+    return data;
+  };
+
+  const logout = () => {
+    localStorage.removeItem("customerToken");
+    setCustomer(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      customer, register, login, logout, loginOpen,
+      openLogin,
+      closeLogin,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
