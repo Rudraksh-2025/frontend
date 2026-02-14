@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Container,
@@ -6,161 +6,146 @@ import {
     TextField,
     Button,
     Typography,
+    Paper,
     Alert,
     CircularProgress,
-    Paper,
 } from "@mui/material";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import { AuthContext } from "../../context/AuthContext";
+
+const RegisterSchema = Yup.object().shape({
+    firstName: Yup.string().required("First name required"),
+    lastName: Yup.string(),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string()
+        .min(6, "Minimum 6 characters")
+        .required("Required"),
+});
 
 const Register = () => {
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [form, setForm] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-    });
-
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const validateForm = () => {
-        if (!form.firstName || !form.email || !form.password) {
-            return "First name, email and password are required";
-        }
-
-        if (form.password.length < 6) {
-            return "Password must be at least 6 characters";
-        }
-
-        return null;
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        setError("");
-        setSuccess(false);
-
-        const validationError = validateForm();
-        if (validationError) {
-            setError(validationError);
-            return;
-        }
-
-        try {
-            setLoading(true);
-
-            const response = await register(
-                form.email,
-                form.password,
-                form.firstName,
-                form.lastName
-            );
-
-            const errors =
-                response.customerCreate.customerUserErrors;
-
-            if (errors.length > 0) {
-                setError(errors[0].message);
-                return;
-            }
-
-            setSuccess(true);
-
-            // Redirect to login after 1.5 sec
-            setTimeout(() => {
-                navigate("/login");
-            }, 1500);
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
-        <Container maxWidth="sm" sx={{ mt: 8 }}>
-            <Paper elevation={3} sx={{ p: 4 }}>
-                <Typography variant="h5" gutterBottom>
+        <Container maxWidth="sm" sx={{ mt: 10 }}>
+            <Paper elevation={4} sx={{ p: 5, borderRadius: 3 }}>
+                <Typography variant="h4" fontWeight={600} mb={3}>
                     Create Account
                 </Typography>
 
-                {error && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                        {error}
-                    </Alert>
-                )}
+                <Formik
+                    initialValues={{
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        password: "",
+                    }}
+                    validationSchema={RegisterSchema}
+                    onSubmit={async (values, { setSubmitting, setStatus }) => {
+                        try {
+                            const response = await register(
+                                values.email,
+                                values.password,
+                                values.firstName,
+                                values.lastName
+                            );
 
-                {success && (
-                    <Alert severity="success" sx={{ mb: 2 }}>
-                        Account created successfully! Redirecting to login...
-                    </Alert>
-                )}
+                            const errors =
+                                response.customerCreate.customerUserErrors;
 
-                <Box component="form" onSubmit={handleSubmit}>
-                    <TextField
-                        fullWidth
-                        label="First Name"
-                        name="firstName"
-                        margin="normal"
-                        value={form.firstName}
-                        onChange={handleChange}
-                    />
+                            if (errors.length > 0) {
+                                setStatus(errors[0].message);
+                                return;
+                            }
 
-                    <TextField
-                        fullWidth
-                        label="Last Name"
-                        name="lastName"
-                        margin="normal"
-                        value={form.lastName}
-                        onChange={handleChange}
-                    />
+                            navigate("/login");
+                        } catch {
+                            setStatus("Something went wrong");
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleSubmit,
+                        isSubmitting,
+                        status,
+                    }) => (
+                        <Box component="form" onSubmit={handleSubmit}>
+                            {status && (
+                                <Alert severity="error" sx={{ mb: 2 }}>
+                                    {status}
+                                </Alert>
+                            )}
 
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        margin="normal"
-                        value={form.email}
-                        onChange={handleChange}
-                    />
+                            <TextField
+                                fullWidth
+                                label="First Name"
+                                name="firstName"
+                                margin="normal"
+                                value={values.firstName}
+                                onChange={handleChange}
+                                error={touched.firstName && Boolean(errors.firstName)}
+                                helperText={touched.firstName && errors.firstName}
+                            />
 
-                    <TextField
-                        fullWidth
-                        label="Password"
-                        name="password"
-                        type="password"
-                        margin="normal"
-                        value={form.password}
-                        onChange={handleChange}
-                    />
+                            <TextField
+                                fullWidth
+                                label="Last Name"
+                                name="lastName"
+                                margin="normal"
+                                value={values.lastName}
+                                onChange={handleChange}
+                            />
 
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3 }}
-                        disabled={loading}
-                    >
-                        {loading ? <CircularProgress size={24} /> : "Register"}
-                    </Button>
-                </Box>
+                            <TextField
+                                fullWidth
+                                label="Email"
+                                name="email"
+                                margin="normal"
+                                value={values.email}
+                                onChange={handleChange}
+                                error={touched.email && Boolean(errors.email)}
+                                helperText={touched.email && errors.email}
+                            />
 
-                <Typography sx={{ mt: 3 }}>
-                    Already have an account?{" "}
-                    <Button onClick={() => navigate("/login")}>
-                        Login
-                    </Button>
-                </Typography>
+                            <TextField
+                                fullWidth
+                                label="Password"
+                                type="password"
+                                name="password"
+                                margin="normal"
+                                value={values.password}
+                                onChange={handleChange}
+                                error={touched.password && Boolean(errors.password)}
+                                helperText={touched.password && errors.password}
+                            />
+                            <Typography>Already have an account?
+                                <span onClick={() => navigate('/login')}> Login</span>
+                            </Typography>
+
+                            <Button
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                size="large"
+                                sx={{ mt: 3, py: 1.5, borderRadius: 2 }}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <CircularProgress size={22} />
+                                ) : (
+                                    "Create Account"
+                                )}
+                            </Button>
+                        </Box>
+                    )}
+                </Formik>
             </Paper>
         </Container>
     );

@@ -9,13 +9,13 @@ import Register from "./pages/auth/Register";
 import Cart from "./pages/cart/Cart";
 
 const router = createBrowserRouter([
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
   {
     path: "/",
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
       { path: "cart", element: <Cart /> },
       {
         path: "product/:handle",
