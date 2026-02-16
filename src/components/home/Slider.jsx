@@ -4,21 +4,23 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
+// const IU = window.sliderImages.map(img => ({ image: img }))
+
 const slides = [
     {
-        image: "src/assets/images/trackslider6.png",
+        image: "./trackslider6.png",
     },
     {
-        image: "src/assets/images/trackslider2.png",
+        image: "./trackslider2.png",
     },
     {
-        image: "src/assets/images/trackslider3.png",
+        image: "./trackslider3.png",
     },
     {
-        image: "src/assets/images/trackslider4.png",
+        image: "./trackslider4.png",
     },
     {
-        image: "src/assets/images/trackslider5.png",
+        image: "./trackslider5.png",
     },
 ];
 

@@ -1,5 +1,8 @@
 import { Box, Typography, Button } from "@mui/material";
 
+// backgroundImage: `url(${window.sliderImages?.[0]})`
+
+
 const Hero = () => {
     return (
         <Box
@@ -8,7 +11,7 @@ const Hero = () => {
                 width: "100%",
                 position: "relative",
                 backgroundImage:
-                    "url('src/assets/images/trackslider1.png')",
+                    "url('./trackslider1.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundAttachment: "fixed", // 🔥 PARALLAX
