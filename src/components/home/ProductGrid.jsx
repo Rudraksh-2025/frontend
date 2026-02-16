@@ -61,7 +61,7 @@ const ProductGrid = () => {
 
 
     return (
-        <Box sx={{ px: { xs: 3, md: 8 }, py: 6 }}>
+        <Box sx={{ px: { xs: 1, md: 4 }, py: 6 }}>
             <Typography
                 variant="h4"
                 sx={{
@@ -73,7 +73,7 @@ const ProductGrid = () => {
                 NEW ARRIVALS
             </Typography>
 
-            <Grid container spacing={6}>
+            <Grid container spacing={{ xs: 2, md: 4 }}>
                 {products.map(({ node }) => {
                     const variant = node.variants.edges[0]?.node;
                     const price = parseFloat(variant.price.amount);
@@ -133,7 +133,7 @@ const ProductGrid = () => {
                                 {/* Title */}
                                 <Typography
                                     sx={{
-                                        mt: 3,
+                                        mt: { xs: 0, md: 2 },
                                         letterSpacing: 2,
                                         fontSize: 14,
                                     }}

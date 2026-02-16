@@ -40,7 +40,7 @@ const Cart = () => {
 
     return (
         <Container sx={{ mt: 8, mb: 8 }}>
-            <Typography variant="h4" fontWeight={600} gutterBottom>
+            <Typography variant="h5" fontWeight={600} gutterBottom>
                 Your Cart ({cart?.totalQuantity})
             </Typography>
 
@@ -49,8 +49,9 @@ const Cart = () => {
                 <Grid size={{ xs: 12, md: 8 }}>
                     <Paper sx={{ p: 3, borderRadius: 3 }}>
                         {cart?.lines?.map((item, index) => (
-                            <Box key={item?.id}>
-                                <Grid container spacing={2} alignItems="center">
+                            <Box key={item?.id} sx={{ position: "relative" }}>
+                                <Grid container spacing={2} alignItems="flex-start">
+
                                     {/* Product Image */}
                                     <Grid size={{ xs: 4, sm: 3 }}>
                                         <Box
@@ -66,17 +67,37 @@ const Cart = () => {
 
                                     {/* Product Info */}
                                     <Grid size={{ xs: 8, sm: 9 }}>
-                                        <Typography fontWeight={600}>
-                                            {item?.merchandise?.product?.title}
-                                        </Typography>
 
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 1 }}
+                                        {/* TOP ROW — Title + Delete */}
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                alignItems: "flex-start",
+                                            }}
                                         >
-                                            {item?.merchandise?.title}
-                                        </Typography>
+                                            <Box>
+                                                <Typography fontWeight={600}>
+                                                    {item?.merchandise?.product?.title}
+                                                </Typography>
+
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                    sx={{ mt: 0.5 }}
+                                                >
+                                                    {item?.merchandise?.title}
+                                                </Typography>
+                                            </Box>
+
+                                            {/* DELETE BUTTON TOP RIGHT */}
+                                            <IconButton
+                                                onClick={() => removeItem(item?.id)}
+                                                size="small"
+                                            >
+                                                <DeleteOutlineIcon fontSize="small" />
+                                            </IconButton>
+                                        </Box>
 
                                         {/* Quantity Controls */}
                                         <Box
@@ -84,15 +105,14 @@ const Cart = () => {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 gap: 2,
-                                                mt: 1,
+                                                mt: 2,
                                             }}
                                         >
                                             <Button
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() =>
-                                                    updateQuantity(item?.id, item?.quantity
-                                                        - 1)
+                                                    updateQuantity(item?.id, item?.quantity - 1)
                                                 }
                                             >
                                                 -
@@ -109,19 +129,19 @@ const Cart = () => {
                                             >
                                                 +
                                             </Button>
-
-                                            <Typography sx={{ ml: "auto", fontWeight: 600 }}>
-                                                ₹{item?.cost?.totalAmount?.amount}
-                                            </Typography>
                                         </Box>
 
-                                        {/* Remove */}
-                                        <IconButton
-                                            onClick={() => removeItem(item?.id)}
-                                            sx={{ mt: 1 }}
+                                        {/* PRICE BELOW QUANTITY */}
+                                        <Typography
+                                            sx={{
+                                                mt: 2,
+                                                fontWeight: 600,
+                                                fontSize: 16,
+                                            }}
                                         >
-                                            <DeleteOutlineIcon fontSize="small" />
-                                        </IconButton>
+                                            ₹{item?.cost?.totalAmount?.amount}
+                                        </Typography>
+
                                     </Grid>
                                 </Grid>
 
@@ -130,6 +150,7 @@ const Cart = () => {
                                 )}
                             </Box>
                         ))}
+
                     </Paper>
                 </Grid>
 

@@ -4,12 +4,13 @@ import {
     Button,
     Grid,
     Rating,
-    Stack,
+    Stack, Tooltip
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { shopifyQuery } from "../../services/shopify";
 import { CartContext } from "../../context/CartContext";
+
 
 const ProductDetails = () => {
     const { handle } = useParams();
@@ -39,6 +40,8 @@ const ProductDetails = () => {
               node {
                 id
                 title
+                availableForSale
+                quantityAvailable
                 price { amount }
                 compareAtPrice { amount }
               }
@@ -189,31 +192,57 @@ const ProductDetails = () => {
                     <Box sx={{ mt: 4 }}>
                         <Typography sx={{ mb: 1 }}>Size:</Typography>
 
-                        <Stack direction="row" spacing={2} flexWrap="wrap">
-                            {product.variants.edges.map(({ node }) => (
-                                <Button
-                                    key={node.id}
-                                    variant="outlined"
-                                    onClick={() => setSelectedVariant(node)}
-                                    sx={{
-                                        borderColor:
-                                            selectedVariant.id === node.id
-                                                ? "#000"
-                                                : "#ccc",
-                                        backgroundColor:
-                                            selectedVariant.id === node.id
-                                                ? "#000"
-                                                : "transparent",
-                                        color:
-                                            selectedVariant.id === node.id
-                                                ? "#fff"
-                                                : "#000",
-                                        minWidth: 60,
-                                    }}
-                                >
-                                    {node.title}
-                                </Button>
-                            ))}
+                        <Stack direction="row" spacing={2} flexWrap="wrap" >
+                            {product.variants.edges.map(({ node }) => {
+                                const isOutOfStock =
+                                    !node.availableForSale || node.quantityAvailable === 0;
+
+                                const button = (
+                                    <Button
+                                        key={node.id}
+                                        variant="outlined"
+                                        disabled={isOutOfStock}
+                                        onClick={() => !isOutOfStock && setSelectedVariant(node)}
+                                        sx={{
+                                            mt: 1,
+                                            position: "relative",
+                                            minWidth: 60,
+                                            borderColor:
+                                                selectedVariant.id === node.id ? "#000" : "#ccc",
+                                            backgroundColor:
+                                                selectedVariant.id === node.id ? "#000" : "transparent",
+                                            color:
+                                                selectedVariant.id === node.id ? "#fff" : "#000",
+                                            opacity: isOutOfStock ? 0.5 : 1,
+                                        }}
+                                    >
+                                        {node.title}
+
+                                        {isOutOfStock && (
+                                            <Box
+                                                sx={{
+                                                    mt: 1,
+                                                    position: "absolute",
+                                                    width: "100%",
+                                                    height: "2px",
+                                                    background: "#000",
+                                                    transform: "rotate(-20deg)",
+                                                }}
+                                            />
+                                        )}
+                                    </Button>
+                                );
+
+                                return isOutOfStock ? (
+                                    <Tooltip key={node.id} title="Out of stock">
+                                        <span>{button}</span>
+                                    </Tooltip>
+                                ) : (
+                                    button
+                                );
+                            })}
+
+
                         </Stack>
                     </Box>
 

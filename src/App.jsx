@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Cart from "./pages/cart/Cart";
+import Contact from "./pages/contact/Contact";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "cart", element: <Cart /> },
+      { path: "contact", element: <Contact /> },
       {
         path: "product/:handle",
         element: <ProductDetails />,

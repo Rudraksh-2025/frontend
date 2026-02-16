@@ -53,13 +53,13 @@ const ProductSlider = () => {
 
 
     return (
-        <Box sx={{ py: { xs: 6, md: 8 } }}>
+        <Box sx={{ py: { xs: 3, md: 8 } }}>
             <Typography
                 variant="h4"
                 sx={{
                     textAlign: "center",
-                    letterSpacing: 6,
-                    mb: 5,
+                    letterSpacing: 3,
+                    mb: 1,
                 }}
             >
                 PANTS
