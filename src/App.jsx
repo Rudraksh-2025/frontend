@@ -8,6 +8,8 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Cart from "./pages/cart/Cart";
 import Contact from "./pages/contact/Contact";
+import FAQ from "./pages/FAQ";
+import Policy from "./pages/Policy";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -19,6 +21,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "cart", element: <Cart /> },
       { path: "contact", element: <Contact /> },
+      { path: "faq", element: <FAQ /> },
+      { path: "policy", element: <Policy /> },
       {
         path: "product/:handle",
         element: <ProductDetails />,

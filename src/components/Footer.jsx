@@ -98,11 +98,11 @@ const Footer = () => {
                             Contact Us
                         </Typography>
 
-                        <Typography sx={{ mb: 1, color: "#aaa" }}>
+                        <Typography sx={{ mb: 1, color: "#aaa", cursor: 'pointer' }} onClick={() => navigate("/policy")}>
                             Shipping & Returns
                         </Typography>
 
-                        <Typography sx={{ mb: 1, color: "#aaa" }}>
+                        <Typography sx={{ mb: 1, color: "#aaa", cursor: 'pointer' }} onClick={() => navigate("/faq")}>
                             FAQs
                         </Typography>
 

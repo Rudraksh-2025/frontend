@@ -33,9 +33,7 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // const isHomeTop = location.pathname === "/" && !scrolled;
-    const isColorBlack = location.pathname === "/cart" || scrolled
-
+    const isTop = (location.pathname === "/" || location.pathname === "/contact") && !scrolled;
 
 
     return (
@@ -45,7 +43,7 @@ const Navbar = () => {
             sx={{
                 backdropFilter: scrolled ? "blur(8px)" : "none",
                 backgroundColor: scrolled ? "#fff" : "transparent",
-                color: isColorBlack ? "#000" : "#fff",
+                color: isTop ? "#fff" : "#000",
                 transition: "all 0.3s ease",
             }}
         >
