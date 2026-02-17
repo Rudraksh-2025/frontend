@@ -21,7 +21,7 @@ const Footer = () => {
             sx={{
                 backgroundColor: "#000",
                 color: "#fff",
-                mt: 10,
+                // mt: 10,
                 pt: 8,
                 pb: 4,
             }}
@@ -94,7 +94,7 @@ const Footer = () => {
                             SUPPORT
                         </Typography>
 
-                        <Typography sx={{ mb: 1, color: "#aaa" }}>
+                        <Typography sx={{ mb: 1, color: "#aaa", cursor: 'pointer' }} onClick={() => navigate("/contact")}>
                             Contact Us
                         </Typography>
 
