@@ -43,7 +43,7 @@ const CountdownSale = () => {
                 height: { xs: "500px", md: "600px" },
                 width: "100%",
                 position: "relative",
-                backgroundImage: "url('/image.png')",
+                backgroundImage: "url('/image2.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 display: "flex",
