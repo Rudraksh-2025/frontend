@@ -287,7 +287,7 @@ const ProductDetails = () => {
                     </Button>
 
                     {/* Buy Now */}
-                    <Button
+                    {/* <Button
                         fullWidth
                         sx={{
                             mt: 2,
@@ -303,7 +303,7 @@ const ProductDetails = () => {
                         }
                     >
                         BUY IT NOW
-                    </Button>
+                    </Button> */}
 
                     {/* Product Highlights */}
                     <Box sx={{ mt: 6 }}>

@@ -1,7 +1,10 @@
 import { Box, Typography, Button, Container } from "@mui/material";
 import { motion } from "framer-motion";
+import { useTheme, useMediaQuery } from "@mui/material";
 // backgroundImage: `url(${window.sliderImages?.[0]})`
 const Hero = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     return (
         <Box
             data-cursor-color="white"
@@ -10,27 +13,45 @@ const Hero = () => {
                 width: "100%",
                 position: "relative",
                 backgroundColor: "#000",
-                backgroundImage: "url('/trackslider2.png')",
-                backgroundSize: "cover",
-                backgroundPosition: "center top",
-                backgroundAttachment: "fixed",
                 display: "flex",
                 alignItems: "center",
                 overflow: "hidden",
             }}
         >
+            {/* Background Video */}
+            <Box
+                component="video"
+                autoPlay
+                key={isMobile ? "mobile" : "desktop"}
+                muted
+                loop
+                playsInline
+                sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    zIndex: 0,
+                    filter: "brightness(0.7)", // Subtle darkening for accessibility
+                }}
+            >
+                <source src={isMobile ? "/heroMobile.mp4" : "/hero.mp4"} type="video/mp4" loop />
+            </Box>
+
             {/* Cinematic Gradient Overlay */}
             <Box
                 sx={{
                     position: "absolute",
                     inset: 0,
-                    background: "radial-gradient(circle at 30% 50%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.9) 100%)",
+                    zIndex: 1,
+                    background: "radial-gradient(circle at 30% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.8) 100%)",
                 }}
             />
 
-            <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+            <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
                 <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
-
                     {/* Bold Main Heading with Animation */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -95,26 +116,28 @@ const Hero = () => {
                                 sx={{
                                     borderColor: "#fff",
                                     color: "#fff",
-                                    px: 4,
+                                    px: 5,
+                                    py: 1.5,
                                     width: { xs: '100%', md: 'fit-content' },
                                     fontSize: "0.9rem",
                                     fontWeight: 800,
-                                    borderRadius: '50px',
+                                    borderRadius: 0, // Changed to match industrial grind aesthetic
+                                    letterSpacing: 2,
                                     "&:hover": {
                                         borderColor: "#fff",
-                                        backgroundColor: "rgba(255,255,255,0.1)",
+                                        backgroundColor: "#fff",
+                                        color: "#000",
                                     },
                                 }}
                             >
-                                SHOP NOW
+                                EXPLORE COLLECTION
                             </Button>
                         </Box>
                     </motion.div>
-
                 </Box>
             </Container>
 
-            {/* Scroll Indicator (Nike-style subtle detail) */}
+            {/* Scroll Indicator */}
             <Box
                 sx={{
                     position: "absolute",
@@ -126,6 +149,7 @@ const Hero = () => {
                     alignItems: "center",
                     gap: 1,
                     opacity: 0.6,
+                    zIndex: 2,
                 }}
             >
                 <Box
@@ -155,5 +179,6 @@ const Hero = () => {
         </Box>
     );
 };
+
 
 export default Hero;
