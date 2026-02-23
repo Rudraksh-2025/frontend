@@ -1,4 +1,5 @@
 import { Box, Typography, Button, Container } from "@mui/material";
+import { motion } from "framer-motion";
 // backgroundImage: `url(${window.sliderImages?.[0]})`
 const Hero = () => {
     return (
@@ -29,68 +30,85 @@ const Hero = () => {
             <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
                 <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
 
-                    {/* Bold Main Heading */}
-                    <Typography
-                        variant="h1"
-                        sx={{
-                            color: "#fff",
-                            fontWeight: 900,
-                            fontSize: { xs: "3.5rem", md: "6rem", lg: "7.5rem" },
-                            lineHeight: 0.9,
-                            letterSpacing: -2,
-                            mb: 1,
-                            textTransform: "uppercase",
-                            fontStyle: "italic",
-                        }}
+                    {/* Bold Main Heading with Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        CARVED BY<br />
-                        <Box component="span" sx={{ color: "#fff", WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
-                            THE GRIND.
-                        </Box>
-                    </Typography>
-
-                    {/* Manifesto Text */}
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            color: "rgba(255,255,255,0.8)",
-                            fontSize: { xs: "0.9rem", md: "1.1rem" },
-                            pl: 1,
-                            lineHeight: 1.6,
-                            maxWidth: "500px",
-                            mb: 3,
-                            mt: 3,
-                            fontWeight: 300,
-                            letterSpacing: 0.5,
-                        }}
-                    >
-                        BORN IN THE SHADOWS. FORGED THROUGH THE STRUGGLE.
-                        WE DON'T JUST WEAR THE PRODUCT. WE ARE CARVED BY THE PROCESS.
-                        LUXURY STREETWEAR FOR THE UNSTOPPABLE.
-                    </Typography>
-
-
-                    <Box sx={{ display: 'flex', justifyContent: 'start' }}>
-                        <Button
-                            variant="outlined"
+                        <Typography
+                            variant="h1"
                             sx={{
-                                borderColor: "#fff",
                                 color: "#fff",
-                                px: 4,
-                                width: { xs: '100%', md: 'fit-content' },
-                                fontSize: "0.9rem",
-                                fontWeight: 800,
-                                borderRadius: '50px',
-                                "&:hover": {
-                                    borderColor: "#fff",
-                                    backgroundColor: "rgba(255,255,255,0.1)",
-                                    border: "2px solid",
-                                },
+                                fontWeight: 900,
+                                fontSize: { xs: "3.5rem", md: "6rem", lg: "7.5rem" },
+                                lineHeight: 0.9,
+                                letterSpacing: -2,
+                                mb: 1,
+                                textTransform: "uppercase",
+                                fontStyle: "italic",
                             }}
                         >
-                            SHOP NOW
-                        </Button>
-                    </Box>
+                            CARVED BY<br />
+                            <Box component="span" sx={{ color: "#fff", WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
+                                THE GRIND.
+                            </Box>
+                        </Typography>
+                    </motion.div>
+
+                    {/* Manifesto Text with Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                    >
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                color: "rgba(255,255,255,0.8)",
+                                fontSize: { xs: "0.9rem", md: "1.1rem" },
+                                pl: 1,
+                                lineHeight: 1.6,
+                                maxWidth: "500px",
+                                mb: 3,
+                                mt: 3,
+                                fontWeight: 300,
+                                letterSpacing: 0.5,
+                            }}
+                        >
+                            BORN IN THE SHADOWS. FORGED THROUGH THE STRUGGLE.
+                            WE DON'T JUST WEAR THE PRODUCT. WE ARE CARVED BY THE PROCESS.
+                            LUXURY STREETWEAR FOR THE UNSTOPPABLE.
+                        </Typography>
+                    </motion.div>
+
+                    {/* CTA Section with Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                    >
+                        <Box sx={{ display: 'flex', justifyContent: 'start' }}>
+                            <Button
+                                variant="outlined"
+                                sx={{
+                                    borderColor: "#fff",
+                                    color: "#fff",
+                                    px: 4,
+                                    width: { xs: '100%', md: 'fit-content' },
+                                    fontSize: "0.9rem",
+                                    fontWeight: 800,
+                                    borderRadius: '50px',
+                                    "&:hover": {
+                                        borderColor: "#fff",
+                                        backgroundColor: "rgba(255,255,255,0.1)",
+                                    },
+                                }}
+                            >
+                                SHOP NOW
+                            </Button>
+                        </Box>
+                    </motion.div>
 
                 </Box>
             </Container>
@@ -138,4 +156,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
