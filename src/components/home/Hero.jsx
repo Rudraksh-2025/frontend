@@ -1,8 +1,5 @@
-import { Box, Typography, Button } from "@mui/material";
-
+import { Box, Typography, Button, Container } from "@mui/material";
 // backgroundImage: `url(${window.sliderImages?.[0]})`
-
-
 const Hero = () => {
     return (
         <Box
@@ -10,68 +7,135 @@ const Hero = () => {
                 height: "100vh",
                 width: "100%",
                 position: "relative",
-                backgroundImage:
-                    "url('./trackslider1.png')",
+                backgroundColor: "#000",
+                backgroundImage: "url('/trackslider2.png')",
                 backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundAttachment: "fixed", // 🔥 PARALLAX
+                backgroundPosition: "center top",
+                backgroundAttachment: "fixed",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                overflow: "hidden",
             }}
         >
-            {/* Dark Overlay */}
+            {/* Cinematic Gradient Overlay */}
             <Box
                 sx={{
                     position: "absolute",
                     inset: 0,
-                    background:
-                        "linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3))",
+                    background: "radial-gradient(circle at 30% 50%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0.9) 100%)",
                 }}
             />
 
-            {/* Content */}
-            <Box sx={{ position: "relative", textAlign: "center" }}>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        color: "#fff",
-                        letterSpacing: 4,
-                        fontWeight: 400,
-                    }}
-                >
-                    NEW ARRIVALS
-                </Typography>
+            <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+                <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
 
-                <Typography
-                    variant="h2"
-                    sx={{
-                        color: "#fff",
-                        fontWeight: 700,
-                        mt: 2,
-                    }}
-                >
-                    STREET ESSENTIALS
-                </Typography>
+                    {/* Bold Main Heading */}
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            color: "#fff",
+                            fontWeight: 900,
+                            fontSize: { xs: "3.5rem", md: "6rem", lg: "7.5rem" },
+                            lineHeight: 0.9,
+                            letterSpacing: -2,
+                            mb: 1,
+                            textTransform: "uppercase",
+                            fontStyle: "italic",
+                        }}
+                    >
+                        CARVED BY<br />
+                        <Box component="span" sx={{ color: "#fff", WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
+                            THE GRIND.
+                        </Box>
+                    </Typography>
 
-                <Button
-                    variant="outlined"
+                    {/* Manifesto Text */}
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            color: "rgba(255,255,255,0.8)",
+                            fontSize: { xs: "0.9rem", md: "1.1rem" },
+                            pl: 1,
+                            lineHeight: 1.6,
+                            maxWidth: "500px",
+                            mb: 3,
+                            mt: 3,
+                            fontWeight: 300,
+                            letterSpacing: 0.5,
+                        }}
+                    >
+                        BORN IN THE SHADOWS. FORGED THROUGH THE STRUGGLE.
+                        WE DON'T JUST WEAR THE PRODUCT. WE ARE CARVED BY THE PROCESS.
+                        LUXURY STREETWEAR FOR THE UNSTOPPABLE.
+                    </Typography>
+
+
+                    <Box sx={{ display: 'flex', justifyContent: 'start' }}>
+                        <Button
+                            variant="outlined"
+                            sx={{
+                                borderColor: "#fff",
+                                color: "#fff",
+                                px: 4,
+                                width: { xs: '100%', md: 'fit-content' },
+                                fontSize: "0.9rem",
+                                fontWeight: 800,
+                                borderRadius: '50px',
+                                "&:hover": {
+                                    borderColor: "#fff",
+                                    backgroundColor: "rgba(255,255,255,0.1)",
+                                    border: "2px solid",
+                                },
+                            }}
+                        >
+                            SHOP NOW
+                        </Button>
+                    </Box>
+
+                </Box>
+            </Container>
+
+            {/* Scroll Indicator (Nike-style subtle detail) */}
+            <Box
+                sx={{
+                    position: "absolute",
+                    bottom: 40,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 1,
+                    opacity: 0.6,
+                }}
+            >
+                <Box
                     sx={{
-                        mt: 4,
-                        borderColor: "#fff",
-                        color: "#fff",
-                        px: 4,
-                        "&:hover": {
-                            backgroundColor: "#fff",
-                            color: "#000",
+                        width: "1px",
+                        height: "60px",
+                        backgroundColor: "#fff",
+                        position: "relative",
+                        overflow: "hidden",
+                        "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            background: "linear-gradient(transparent, #fff)",
+                            animation: "scrollDown 2s infinite ease-in-out",
+                        },
+                        "@keyframes scrollDown": {
+                            "0%": { transform: "translateY(-100%)" },
+                            "100%": { transform: "translateY(100%)" },
                         },
                     }}
-                >
-                    SHOP NOW
-                </Button>
+                />
             </Box>
         </Box>
     );
 };
 
 export default Hero;
+

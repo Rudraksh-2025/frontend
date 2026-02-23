@@ -55,14 +55,17 @@ const ProductSlider = () => {
     return (
         <Box sx={{ py: { xs: 3, md: 8 } }}>
             <Typography
-                variant="h4"
+                variant="h3"
                 sx={{
                     textAlign: "center",
-                    letterSpacing: 3,
-                    mb: 1,
+                    fontWeight: 900,
+                    fontSize: { xs: "2rem", md: "3.5rem" },
+                    letterSpacing: -1,
+                    textTransform: "uppercase",
+                    mb: 6,
                 }}
             >
-                PANTS
+                THE <Box component="span" sx={{ color: "rgba(0,0,0,0.3)" }}>ARSENAL</Box>
             </Typography>
 
             {/* Wrapper for positioning arrows */}

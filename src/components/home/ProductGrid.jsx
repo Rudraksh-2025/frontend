@@ -63,14 +63,17 @@ const ProductGrid = () => {
     return (
         <Box sx={{ px: { xs: 1, md: 4 }, py: 6 }}>
             <Typography
-                variant="h4"
+                variant="h3"
                 sx={{
                     textAlign: "center",
-                    letterSpacing: 6,
+                    fontWeight: 900,
+                    fontSize: { xs: "2rem", md: "3.5rem" },
+                    letterSpacing: -1,
+                    textTransform: "uppercase",
                     mb: 6,
                 }}
             >
-                NEW ARRIVALS
+                THE <Box component="span" sx={{ color: "rgba(0,0,0,0.3)" }}>COLLECTION</Box>
             </Typography>
 
             <Grid container spacing={{ xs: 2, md: 4 }}>
