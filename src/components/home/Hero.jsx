@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 const Hero = () => {
     return (
         <Box
+            data-cursor-color="white"
             sx={{
                 height: "100vh",
                 width: "100%",
@@ -50,7 +51,7 @@ const Hero = () => {
                             }}
                         >
                             CARVED BY<br />
-                            <Box component="span" sx={{ color: "#fff", WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
+                            <Box component="span" sx={{ WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
                                 THE GRIND.
                             </Box>
                         </Typography>

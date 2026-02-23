@@ -18,6 +18,7 @@ const Footer = () => {
 
     return (
         <Box
+            data-cursor-color="white"
             sx={{
                 backgroundColor: "#000",
                 color: "#fff",

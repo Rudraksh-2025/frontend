@@ -72,6 +72,7 @@ export default function Slider() {
 
     return (
         <Box
+            data-cursor-color="white"
             sx={{ position: "relative", overflow: "hidden" }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

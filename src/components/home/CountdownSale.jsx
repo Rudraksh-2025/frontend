@@ -38,6 +38,7 @@ const CountdownSale = () => {
 
     return (
         <Box
+            data-cursor-color="white"
             sx={{
                 height: { xs: "500px", md: "600px" },
                 width: "100%",

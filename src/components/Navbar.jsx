@@ -50,6 +50,7 @@ const Navbar = () => {
             <Toolbar sx={{ justifyContent: "space-between" }}>
                 <Typography
                     variant="h6"
+                    className="cursor-pointer"
                     sx={{ cursor: "pointer", fontWeight: 700 }}
                     onClick={() => navigate("/")}
                 >

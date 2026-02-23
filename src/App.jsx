@@ -10,6 +10,7 @@ import Cart from "./pages/cart/Cart";
 import Contact from "./pages/contact/Contact";
 import FAQ from "./pages/FAQ";
 import Policy from "./pages/Policy";
+import CustomCursor from "./components/common/CustomCursor";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -35,6 +36,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <CustomCursor />
         <RouterProvider router={router} />
       </CartProvider>
     </AuthProvider>
@@ -42,3 +44,4 @@ function App() {
 }
 
 export default App;
+
