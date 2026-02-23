@@ -62,7 +62,7 @@ const ProductSlider = () => {
                     fontSize: { xs: "2rem", md: "3.5rem" },
                     letterSpacing: -1,
                     textTransform: "uppercase",
-                    mb: 6,
+                    mb: { xs: 3, md: 6 },
                 }}
             >
                 THE <Box component="span" sx={{ color: "rgba(0,0,0,0.3)" }}>ARSENAL</Box>
