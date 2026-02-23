@@ -39,9 +39,22 @@ const Cart = () => {
         );
 
     return (
-        <Container sx={{ mt: 8, mb: 8 }}>
-            <Typography variant="h5" fontWeight={600} gutterBottom>
-                Your Cart ({cart?.totalQuantity})
+        <Container sx={{ mt: 10, mb: 8 }}>
+            <Typography
+                variant="h3"
+                sx={{
+                    fontWeight: 900,
+                    fontSize: { xs: "2.5rem", md: "4rem" },
+                    lineHeight: 1,
+                    letterSpacing: -1,
+                    textTransform: "uppercase",
+                    mb: 6,
+                }}
+            >
+                YOUR <Box component="span" sx={{ color: "rgba(0,0,0,0.3)" }}>CART </Box>
+                {/* <Typography component="span" sx={{ fontSize: "1rem", verticalAlign: "middle", ml: 1, fontWeight: 700, opacity: 0.5 }}>
+                    ( {cart?.totalQuantity} UNITS )
+                </Typography> */}
             </Typography>
 
             <Grid container spacing={4}>
@@ -110,6 +123,7 @@ const Cart = () => {
                                         >
                                             <Button
                                                 size="small"
+                                                sx={{ p: 0, minWidth: 50, height: 28, fontSize: '0.9rem' }}
                                                 variant="outlined"
                                                 onClick={() =>
                                                     updateQuantity(item?.id, item?.quantity - 1)
@@ -122,6 +136,7 @@ const Cart = () => {
 
                                             <Button
                                                 size="small"
+                                                sx={{ p: 0, minWidth: 50, height: 28, fontSize: '0.9rem' }}
                                                 variant="outlined"
                                                 onClick={() =>
                                                     updateQuantity(item?.id, item?.quantity + 1)
