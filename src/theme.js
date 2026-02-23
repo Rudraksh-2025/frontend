@@ -14,7 +14,9 @@ const theme = createTheme({
         },
     },
     typography: {
-        fontFamily: "Inter, sans-serif",
+        // fontFamily: "Inter, sans-serif",
+        fontFamily: "Montserrat, sans-serif",
+
         h4: {
             fontWeight: 600,
         },
