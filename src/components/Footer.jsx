@@ -77,15 +77,7 @@ const Footer = () => {
                         </Typography>
 
                         <Typography sx={{ mb: 1, color: "#aaa" }}>
-                            Tops
-                        </Typography>
-
-                        <Typography sx={{ mb: 1, color: "#aaa" }}>
                             Bottoms
-                        </Typography>
-
-                        <Typography sx={{ mb: 1, color: "#aaa" }}>
-                            Clearance
                         </Typography>
                     </Grid>
 

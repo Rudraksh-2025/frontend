@@ -34,7 +34,7 @@ const Hero = () => {
                     height: "100%",
                     objectFit: "cover",
                     zIndex: 0,
-                    filter: "brightness(0.7)", // Subtle darkening for accessibility
+                    filter: "brightness(0.7)",
                 }}
             >
                 <source src={isMobile ? "/heroMobile.mp4" : "/hero.mp4"} type="video/mp4" loop />

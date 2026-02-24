@@ -28,7 +28,7 @@ const Cart = () => {
 
     if (!cart || cart?.lines?.length === 0)
         return (
-            <Container sx={{ mt: 10, textAlign: "center" }}>
+            <Container sx={{ my: 15, textAlign: "center" }}>
                 <Typography variant="h5" gutterBottom>
                     Your cart is empty
                 </Typography>
