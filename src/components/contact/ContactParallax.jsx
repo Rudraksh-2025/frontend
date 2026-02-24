@@ -7,7 +7,8 @@ const ContactParallax = () => {
             data-cursor-color="white"
             sx={{
                 height: "60vh",
-                backgroundImage: "url('/contactParallax.jpg')",
+                // backgroundImage: "url('/contactParallax.jpg')",
+                backgroundImage: `url(${window.sliderImages?.[6]})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundAttachment: "fixed",

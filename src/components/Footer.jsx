@@ -156,3 +156,4 @@ const Footer = () => {
 };
 
 export default Footer;
+// window.sliderImages?.slice(0, 6).map(img => ({ image: img }));

@@ -25,6 +25,7 @@ const Hero = () => {
                 key={isMobile ? "mobile" : "desktop"}
                 muted
                 loop
+                preload="auto"
                 playsInline
                 sx={{
                     position: "absolute",
@@ -37,7 +38,12 @@ const Hero = () => {
                     filter: "brightness(0.7)",
                 }}
             >
-                <source src={isMobile ? "/heroMobile.mp4" : "/hero.mp4"} type="video/mp4" loop />
+                {/* <source src={isMobile ? "/heroMobile.mp4" : "/hero.mp4"} 
+                type="video/mp4" loop /> */}
+                <source
+                    src={isMobile ? "https://cdn.shopify.com/videos/c/o/v/439aeef8e8bf434d805a2f6a54ccae78.mp4" : "https://cdn.shopify.com/videos/c/o/v/7a5c3e52bfe748cdb44b24b6ecd03488.mp4"}
+                    type="video/mp4"
+                />
             </Box>
 
             {/* Cinematic Gradient Overlay */}
