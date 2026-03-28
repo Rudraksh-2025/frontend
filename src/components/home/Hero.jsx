@@ -125,7 +125,7 @@ const Hero = () => {
                             letterSpacing: -2,
                             mb: 1,
                             textTransform: "uppercase",
-                            fontStyle: "italic",
+                            fontStyle: { xs: "normal", md: 'italic' },
                             overflow: "hidden",
                         }}
                     >
