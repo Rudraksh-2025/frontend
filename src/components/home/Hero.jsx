@@ -1,6 +1,60 @@
 import { Box, Typography, Button, Container } from "@mui/material";
 import { motion } from "framer-motion";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useEffect, useRef, useCallback } from "react";
+import { gsap } from "gsap";
+
+// Split text into individual animated letter spans
+const LetterStagger = ({ text, delay = 0, style = {}, className = "" }) => {
+    const lettersRef = useRef([]);
+
+    const addRef = useCallback((el) => {
+        if (el && !lettersRef.current.includes(el)) {
+            lettersRef.current.push(el);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!lettersRef.current.length) return;
+
+        gsap.set(lettersRef.current, { opacity: 0, y: 80, rotateX: -90, scale: 0.5 });
+
+        gsap.to(lettersRef.current, {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            scale: 1,
+            duration: 0.9,
+            stagger: 0.04,
+            delay,
+            ease: "back.out(1.7)",
+        });
+
+        return () => {
+            lettersRef.current = [];
+        };
+    }, [delay]);
+
+    return (
+        <span className={className} style={{ display: "inline-block", ...style }}>
+            {text.split("").map((char, i) => (
+                <span
+                    key={i}
+                    ref={addRef}
+                    style={{
+                        display: "inline-block",
+                        willChange: "transform, opacity",
+                        opacity: 0,
+                        ...(char === " " ? { width: "0.3em" } : {}),
+                    }}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </span>
+            ))}
+        </span>
+    );
+};
+
 // backgroundImage: `url(${window.sliderImages?.[0]})`
 const Hero = () => {
     const theme = useTheme();
@@ -57,32 +111,32 @@ const Hero = () => {
             />
 
             <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
-                <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
-                    {/* Bold Main Heading with Animation */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                <Box sx={{ maxWidth: { xs: "100%", md: "65%" } }}>
+                    {/* Bold Main Heading with Letter Stagger */}
+                    <Typography
+                        variant="h1"
+                        component="div"
+                        sx={{
+                            pt: 2,
+                            color: "#fff",
+                            fontWeight: 900,
+                            fontSize: { xs: "3.5rem", md: "6rem", lg: "7.5rem" },
+                            lineHeight: 0.9,
+                            letterSpacing: -2,
+                            mb: 1,
+                            textTransform: "uppercase",
+                            fontStyle: "italic",
+                            overflow: "hidden",
+                        }}
                     >
-                        <Typography
-                            variant="h1"
-                            sx={{
-                                color: "#fff",
-                                fontWeight: 900,
-                                fontSize: { xs: "3.5rem", md: "6rem", lg: "7.5rem" },
-                                lineHeight: 0.9,
-                                letterSpacing: -2,
-                                mb: 1,
-                                textTransform: "uppercase",
-                                fontStyle: "italic",
-                            }}
-                        >
-                            CARVED BY<br />
-                            <Box component="span" sx={{ WebkitTextStroke: { xs: "1px #fff", md: "2px #fff" }, color: "transparent" }}>
-                                THE GRIND.
-                            </Box>
-                        </Typography>
-                    </motion.div>
+                        <LetterStagger text="CARVED BY" delay={0.3} />
+                        <br />
+                        <LetterStagger
+                            text="THE GRIND."
+                            delay={0.9}
+                            style={{ WebkitTextStroke: isMobile ? "1px #fff" : "2px #fff", color: "transparent" }}
+                        />
+                    </Typography>
 
                     {/* Manifesto Text with Animation */}
                     <motion.div
