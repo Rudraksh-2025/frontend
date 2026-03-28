@@ -10,11 +10,6 @@ const Home = () => {
     return (
         <>
             <Hero />
-
-            <ScrollReveal>
-                <Manifesto />
-            </ScrollReveal>
-
             <ScrollReveal>
                 <ProductSlider />
             </ScrollReveal>
@@ -29,6 +24,9 @@ const Home = () => {
 
             <ScrollReveal>
                 <CountdownSale />
+            </ScrollReveal>
+            <ScrollReveal>
+                <Manifesto />
             </ScrollReveal>
         </>
     );

@@ -4,7 +4,7 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-// const IU = window.sliderImages.map(img => ({ image: img }))
+// const Dne = window.sliderImages?.slice(0, 6).map(img => ({ image: img }));
 
 const slides = [
     {

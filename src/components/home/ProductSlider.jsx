@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext, useRef, Container } from "react";
 import { shopifyQuery } from "../../services/shopify";
 import { CartContext } from "../../context/CartContext";
 import { Box, Typography, IconButton } from "@mui/material";

@@ -30,7 +30,7 @@ const Footer = () => {
             <Container maxWidth="lg">
                 <Grid container spacing={6}>
                     {/* BRAND */}
-                    <Grid size={{ xs: 12, md: 4 }}>
+                    <Grid size={{ xs: 12, md: 7 }}>
                         <Typography
                             variant="h5"
                             sx={{ fontWeight: 700, letterSpacing: 2 }}
@@ -51,17 +51,29 @@ const Footer = () => {
 
                         {/* Social Icons */}
                         <Box sx={{ mt: 3 }}>
-                            <IconButton sx={{ color: "#fff" }}>
-                                <InstagramIcon />
-                            </IconButton>
-                            <IconButton sx={{ color: "#fff" }}>
-                                <FacebookIcon />
-                            </IconButton>
-                            <IconButton sx={{ color: "#fff" }}>
-                                <TwitterIcon />
-                            </IconButton>
+                            <Button
+                                variant="contained"
+                                startIcon={<InstagramIcon />}
+                                sx={{
+                                    mt: 3,
+                                    textTransform: "none",
+                                    fontWeight: 600,
+                                    borderRadius: "30px",
+                                    px: 3,
+                                    background: "linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4)",
+                                    color: "#fff",
+                                    "&:hover": {
+                                        opacity: 0.9,
+                                    },
+                                }}
+                            >
+                                @kavr
+                            </Button>
+
                         </Box>
                     </Grid>
+                    {/* <Grid size={{ xs: 0, md: 1 }}>
+                    </Grid> */}
 
                     {/* SHOP */}
                     <Grid size={{ xs: 6, md: 2 }}>
@@ -69,12 +81,12 @@ const Footer = () => {
                             SHOP
                         </Typography>
 
-                        <Typography
+                        {/* <Typography
                             sx={{ mb: 1, cursor: "pointer", color: "#aaa" }}
                             onClick={() => navigate("/")}
                         >
                             New Arrivals
-                        </Typography>
+                        </Typography> */}
 
                         <Typography sx={{ mb: 1, color: "#aaa" }}>
                             Bottoms
@@ -98,14 +110,14 @@ const Footer = () => {
                         <Typography sx={{ mb: 1, color: "#aaa", cursor: 'pointer' }} onClick={() => navigate("/faq")}>
                             FAQs
                         </Typography>
-
+                        {/* 
                         <Typography sx={{ mb: 1, color: "#aaa" }}>
                             Track Order
-                        </Typography>
+                        </Typography> */}
                     </Grid>
 
                     {/* NEWSLETTER */}
-                    <Grid size={{ xs: 12, md: 4 }}>
+                    {/* <Grid size={{ xs: 12, md: 4 }}>
                         <Typography sx={{ mb: 2, fontWeight: 600 }}>
                             JOIN OUR NEWSLETTER
                         </Typography>
@@ -138,7 +150,7 @@ const Footer = () => {
                                 Subscribe
                             </Button>
                         </Box>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
 
                 <Divider sx={{ backgroundColor: "#222", my: 6 }} />
