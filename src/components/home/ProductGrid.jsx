@@ -340,6 +340,7 @@ const ProductGrid = () => {
                             variant="contained"
                             sx={{
                                 mt: 3,
+                                py: 2,
                                 borderRadius: "30px",
                                 bgcolor: "#000",
                             }}
