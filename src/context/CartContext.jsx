@@ -77,6 +77,8 @@ export const CartProvider = ({ children }) => {
     const data = await shopifyQuery(query, { cartId });
 
     if (!data?.cart) {
+      // Cart expired or invalid — clear stale ID from localStorage
+      localStorage.removeItem("cartId");
       setCart(null);
       setLoading(false);
       return;
@@ -131,6 +133,21 @@ export const CartProvider = ({ children }) => {
       cartId,
       lines: [{ merchandiseId: variantId, quantity: qty }],
     });
+
+    // If the cart was expired/invalid, Shopify returns null — recover by creating a fresh cart and retrying
+    if (!data?.cartLinesAdd?.cart) {
+      localStorage.removeItem("cartId");
+      const newCart = await createCart();
+      cartId = newCart.id;
+
+      const retryData = await shopifyQuery(query, {
+        cartId,
+        lines: [{ merchandiseId: variantId, quantity: qty }],
+      });
+
+      setCart(normalizeCart(retryData.cartLinesAdd.cart));
+      return;
+    }
 
     setCart(normalizeCart(data.cartLinesAdd.cart));
   };
