@@ -6,13 +6,35 @@ import {
     Grid,
     Box,
     Typography,
-    Button,
+    Button, Drawer,
+    IconButton,
+    Stack,
 } from "@mui/material";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ProductGrid = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const [products, setProducts] = useState([]);
     const [hovered, setHovered] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [quickView, setQuickView] = useState(null);
+    const [selectedVariant, setSelectedVariant] = useState(null);
     const { addToCart } = useContext(CartContext);
+
+    const handleQuickView = (product) => {
+        setQuickView(product);
+        setSelectedVariant(product.variants.edges[0]?.node);
+    };
+
+    const handleClose = () => {
+        setQuickView(null);
+        setSelectedVariant(null);
+    };
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,15 +55,18 @@ const ProductGrid = () => {
                   node{ url }
                 }
               }
-              variants(first:1){
-                edges{
-                  node{
-                    id
-                    price{ amount }
-                    compareAtPrice{ amount }
-                  }
-                }
-              }
+             variants(first:10){
+  edges{
+    node{
+      id
+      title
+      availableForSale
+      quantityAvailable
+      price{ amount }
+      compareAtPrice{ amount }
+    }
+  }
+}
             }
           }
         }
@@ -61,6 +86,7 @@ const ProductGrid = () => {
 
 
     return (
+
         <Box sx={{ px: { xs: 1, md: 4 }, py: 6 }}>
             <Typography
                 variant="h3"
@@ -100,6 +126,30 @@ const ProductGrid = () => {
                                     navigate(`/product/${node.handle}`)
                                 }
                             >
+                                {isMobile && (
+                                    <Box
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleQuickView(node);
+                                        }}
+                                        sx={{
+                                            position: "absolute",
+                                            top: 10,
+                                            right: 10,
+                                            width: 40,
+                                            height: 40,
+                                            borderRadius: "50%",
+                                            bgcolor: "rgba(0,0,0,0.7)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            color: "#fff",
+                                            zIndex: 5,
+                                        }}
+                                    >
+                                        <VisibilityOutlinedIcon fontSize="small" />
+                                    </Box>
+                                )}
                                 {/* Discount Badge */}
                                 {discount && (
                                     <Box
@@ -187,7 +237,126 @@ const ProductGrid = () => {
                     );
                 })}
             </Grid>
+
+            <Drawer
+                anchor="bottom"
+                open={!!quickView}
+                onClose={handleClose}
+                PaperProps={{
+                    sx: {
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                        p: 2,
+                        maxHeight: "90vh",
+                    },
+                }}
+            >
+                {quickView && (
+                    <Box>
+                        {/* Close */}
+                        <IconButton
+                            onClick={handleClose}
+                            sx={{ position: "absolute", right: 10, top: 10 }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+
+                        {/* Image */}
+                        <Box
+                            component="img"
+                            src={quickView.images.edges[0]?.node.url}
+                            sx={{
+                                width: "100%",
+                                height: 250,
+                                objectFit: "contain",
+                            }}
+                        />
+
+                        {/* Title */}
+                        <Typography sx={{ mt: 2, fontWeight: 700 }}>
+                            {quickView.title}
+                        </Typography>
+
+                        {/* Price */}
+                        <Typography sx={{ mt: 1, fontWeight: 600 }}>
+                            ₹
+                            {quickView.variants.edges[0].node.price.amount}
+                        </Typography>
+
+                        {/* Sizes*/}
+                        <Box sx={{ mt: 3 }}>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>
+                                Size:
+                            </Typography>
+
+                            <Stack direction="row" spacing={1} flexWrap="wrap">
+                                {quickView.variants.edges.map(({ node }) => {
+                                    const isOutOfStock =
+                                        !node.availableForSale || node.quantityAvailable === 0;
+
+                                    const isSelected = selectedVariant?.id === node.id;
+
+                                    return (
+                                        <Button
+                                            key={node.id}
+                                            variant="outlined"
+                                            disabled={isOutOfStock}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (!isOutOfStock) setSelectedVariant(node);
+                                            }}
+                                            sx={{
+                                                minWidth: 55,
+                                                borderColor: isSelected ? "#000" : "#ccc",
+                                                backgroundColor: isSelected ? "#000" : "#fff",
+                                                color: isSelected ? "#fff" : "#000",
+                                                position: "relative",
+                                                opacity: isOutOfStock ? 0.5 : 1,
+                                            }}
+                                        >
+                                            {node.title}
+
+                                            {isOutOfStock && (
+                                                <Box
+                                                    sx={{
+                                                        position: "absolute",
+                                                        width: "100%",
+                                                        height: "2px",
+                                                        background: "#000",
+                                                        transform: "rotate(-20deg)",
+                                                    }}
+                                                />
+                                            )}
+                                        </Button>
+                                    );
+                                })}
+                            </Stack>
+                        </Box>
+
+                        {/* Add to Cart */}
+                        <Button
+                            disabled={!selectedVariant || loading}
+                            fullWidth
+                            variant="contained"
+                            sx={{
+                                mt: 3,
+                                borderRadius: "30px",
+                                bgcolor: "#000",
+                            }}
+                            onClick={async () => {
+                                setLoading(true);
+                                await addToCart(selectedVariant.id);
+                                setLoading(false);
+                                handleClose();
+                            }}
+                        >
+                            {loading ? "Adding..." : "Add to cart"}
+                        </Button>
+                    </Box>
+                )}
+            </Drawer>
         </Box>
+
     );
 };
 
